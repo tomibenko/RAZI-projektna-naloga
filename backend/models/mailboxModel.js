@@ -15,7 +15,16 @@ var mailboxSchema = new Schema({
 	},
 	'accessCode' : String,
 	'installationDate' : Date,
-	'usageHistory' : Array,
+	'usageHistory' : [{
+		user : {
+			type: Schema.Types.ObjectId,
+			ref: 'user'
+		},
+		timestamp : {
+			type: Date, 
+			default: Date.now()
+		},
+	}],
 	'batteryStatus' : String
 });
 

@@ -10,17 +10,16 @@ module.exports = {
     /**
      * mailboxController.list()
      */
-    list: function (req, res) {
-        MailboxModel.find(function (err, mailboxs) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting mailbox.',
-                    error: err
-                });
-            }
-
+    list: async function (req, res) {
+        try {
+            const mailboxs = await MailboxModel.find();
             return res.json(mailboxs);
-        });
+        } catch (err) {
+            return res.status(500).json({
+                message: 'Error when getting mailbox.',
+                error: err
+            });
+        }
     },
 
     /**
@@ -70,7 +69,8 @@ module.exports = {
                 });
             }
 
-            return res.status(201).json(mailbox);
+            //return res.status(201).json(mailbox);
+            return res.redirect('/mailboxes/list');
         });
     },
 
@@ -132,5 +132,9 @@ module.exports = {
 
             return res.status(204).json();
         });
+    },
+
+    showCreate: function (req, res) {
+        return res.render('mailbox/create');
     }
 };

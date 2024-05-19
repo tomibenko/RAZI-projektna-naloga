@@ -6,6 +6,7 @@ var mailboxController = require('../controllers/mailboxController.js');
  * GET
  */
 router.get('/', mailboxController.list);
+router.get('/create', mailboxController.showCreate);
 
 /*
  * GET
