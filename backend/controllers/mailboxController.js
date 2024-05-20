@@ -25,53 +25,45 @@ module.exports = {
     /**
      * mailboxController.show()
      */
-    show: function (req, res) {
-        var id = req.params.id;
-
-        MailboxModel.findOne({_id: id}, function (err, mailbox) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting mailbox.',
-                    error: err
-                });
-            }
-
+    show: async function (req, res) {
+        try {
+            const id = req.params.id;
+            const mailbox = await MailboxModel.findOne({ _id: id });
+    
             if (!mailbox) {
                 return res.status(404).json({
                     message: 'No such mailbox'
                 });
             }
-
+    
             return res.json(mailbox);
-        });
-    },
+        } catch (err) {
+            return res.status(500).json({
+                message: 'Error when getting mailbox.',
+                error: err
+            });
+        }
+    },    
 
     /**
      * mailboxController.create()
      */
-    create: function (req, res) {
-        var mailbox = new MailboxModel({
-			location : req.body.location,
-			status : req.body.status,
-			size : req.body.size,
-			owner : req.body.owner,
-			accessCode : req.body.accessCode,
-			installationDate : req.body.installationDate,
-			usageHistory : req.body.usageHistory,
-			batteryStatus : req.body.batteryStatus
-        });
-
-        mailbox.save(function (err, mailbox) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when creating mailbox',
-                    error: err
-                });
-            }
-
-            //return res.status(201).json(mailbox);
-            return res.redirect('/mailboxes/list');
-        });
+    create: async function (req, res) {
+        try {
+            const mailbox = new MailboxModel({
+                location: req.body.location,
+                size: req.body.size,
+                accessCode: req.body.accessCode,
+            });
+    
+            const savedMailbox = await mailbox.save();
+            return res.redirect('/mailboxes');
+        } catch (err) {
+            return res.status(500).json({
+                message: 'Error when creating mailbox',
+                error: err
+            });
+        }
     },
 
     /**

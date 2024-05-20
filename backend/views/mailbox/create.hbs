@@ -1,14 +1,21 @@
 <h2>ADD MAILBOX</h2>
 <form action="/mailboxes" method="post">
-    <label for="name">Ime:</label>
-    <input type="text" id="name" name="name" required>
-    <label for="address">Naslov:</label>
-    <input type="text" id="address" name="address" required>
-    <label for="city">Mesto:</label>
-    <input type="text" id="city" name="city" required>
-    <label for="zip">Poštna številka:</label>
-    <input type="text" id="zip" name="zip" required>
-    <label for="country">Država:</label>
-    <input type="text" id="country" name="country" required>
+    <label>Location: </label>
+    <input type="text" id="location" name="location" placeholder="Location" required>
+    <br>
+    <label>Select size: </label>
+    <input type="radio" id="size" name="size" value="Small" required>
+    <label>Small</label>
+    <input type="radio" id="size" name="size" value="Medium" required>
+    <label>Medium</label>
+    <input type="radio" id="size" name="size" value="Large" required>
+    <label>Large</label>
+    <br>
+    <label>Owner: user</label>
+    <br>
+    <label>Access Code:</label>
+    <input type="url" id="accessCode" name="accessCode" placeholder="URL" required>
+    <br>
+    <br>
     <button type="submit">Ustvari</button>
 </form>
