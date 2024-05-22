@@ -1,4 +1,5 @@
 var UserModel = require('../models/userModel.js');
+var bycrypt = require('bcrypt');
 
 /**
  * userController.js
@@ -55,6 +56,13 @@ module.exports = {
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password
+            });
+
+            bycrypt.hash(user.password, 10, function(err, hash) {
+                if (err) {
+                    return;
+                }
+                user.password = hash;
             });
 
             const savedUser = await user.save();
@@ -134,6 +142,7 @@ module.exports = {
 
     login: async function (req, res, next) {
         try {
+            console.log(req.body)
             const user = await UserModel.authenticate(req.body.username, req.body.password);
             req.session.userId = user._id;
             return res.redirect('/users/profile');
