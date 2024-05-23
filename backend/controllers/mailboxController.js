@@ -51,6 +51,7 @@ module.exports = {
     create: async function (req, res) {
         try {
             const mailbox = new MailboxModel({
+                id_pk: req.body.id_pk,
                 location: req.body.location,
                 size: req.body.size,
                 accessCode: req.body.accessCode,
