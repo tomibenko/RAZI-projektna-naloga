@@ -21,6 +21,10 @@ var mailboxSchema = new Schema({
 			type: Date, 
 			default: Date.now()
 		},
+		   success: {
+            type: Boolean,
+            default: false
+        }
 	}],
 	'batteryStatus' : String
 });
