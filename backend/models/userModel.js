@@ -9,37 +9,39 @@ var userSchema = new Schema({
     'image': String
 });
 
-/*
-userSchema.pre('save', function(next) {
-	var user = this;
-	bycrypt.hash(user.password, 10, function(err, hash) {
-		if (err) {
-			return next(err);
-		}
-		user.password = hash;
-		next();
-	});
+userSchema.pre('save', async function(next){
+    try{
+        const hash = await bycrypt.hash(this.password, 10);
+        this.password = hash;
+        next();
+    }
+    catch(err){
+        next(err);
+    }
 });
-*/
+
 
 userSchema.statics.authenticate = async function(username, password) {
-    try {
-        const user = await this.findOne({ username });
-        console.log(user);
-        if (!user) {
-            throw new Error('User not found.');
+    try{
+        const user = await this.findOne({ username }).exec();
+        if(!user){
+            const err = new Error('User not found');
+            err.status = 401;
+            throw err;
         }
-        console.log("here1")
-        //const result = await bycrypt.compare(password, 10);
-        console.log("here2")
-        if (user && await bycrypt.compare(password, user.password)) {
+        const result = await bycrypt.compare(password, user.password);
+        if(result === true){
             return user;
-        } else {
-            throw new Error('Incorrect password.');
         }
-    } catch (err) {
+        else{
+            throw new Error('Incorrect password');
+        }
+    }
+    catch(err){
         throw err;
     }
+        
 };
 
-module.exports = mongoose.model('user', userSchema);
+var User = mongoose.model('user', userSchema);
+module.exports = User;
