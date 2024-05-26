@@ -21,7 +21,29 @@ module.exports = {
             });
         }
     },
+    addUsageHistory: async function (req, res) {
+        try {
+            const { id_pk, userId, success, scanResult } = req.body;
 
+            // Update the mailbox with the given id_pk
+            const mailbox = await MailboxModel.findOneAndUpdate(
+                { id_pk: id_pk },
+                { $push: { usageHistory: { user: userId, timestamp: new Date(), success: success, scanResult: scanResult } } },
+                { new: true } // Return the modified document
+            );
+
+            if (!mailbox) {
+                return res.status(404).json({
+                    message: 'Mailbox not found'
+                });
+            }
+
+            res.status(201).json({ message: 'Usage history added successfully' });
+        } catch (error) {
+            console.error('Error updating usage history:', error);
+            res.status(500).json({ error: 'Failed to update usage history' });
+        }
+    },
     /**
      * mailboxController.show()
      */

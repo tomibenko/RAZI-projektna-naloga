@@ -59,7 +59,7 @@ app.use(function (req, res, next) {
   res.locals.session = req.session;
   next();
 });
-
+app.use('/api/usageHistory',mailboxesRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/mailboxes', mailboxesRouter);
@@ -79,5 +79,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server is running on http://185.85.148.40:${port}`);
+});
 module.exports = app;
