@@ -60,7 +60,8 @@ module.exports = {
             });
 
             const savedUser = await user.save();
-            return res.redirect('/users/login');
+            //return res.redirect('/users/login');
+            return res.status(201).json(user);
         }
         catch(err){
             return res.status(500).json({
@@ -131,8 +132,8 @@ module.exports = {
         try{
             const user = await UserModel.authenticate(req.body.username, req.body.password);
             req.session.userId = user._id;
-            return res.redirect('/users/profile');
-            //return res.json(user);
+            //return res.redirect('/users/profile');
+            return res.json(user);
         }
         catch(err){
             const error = new Error('Wrong username or password');
@@ -147,8 +148,8 @@ module.exports = {
                 if (err) {
                     return next(err);
                 } else {
-                    return res.redirect('/');
-                    //return res.status(201).json({});
+                    //return res.redirect('/');
+                    return res.status(201).json({});
                 }
             });
         }
@@ -164,8 +165,8 @@ module.exports = {
                 return next(err);
             }
             else{
-                return res.render('user/profile', user);
-                //return res.json(user);
+                //return res.render('user/profile', user);
+                return res.json(user);
             }
         }
         catch(err){
