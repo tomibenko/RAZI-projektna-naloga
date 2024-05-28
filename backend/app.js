@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error.'));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/userRoutes');
 var mailboxesRouter = require('./routes/mailboxRoutes');
-
+var usageHistoryRouter = require('./routes/usageHistoryRoutes');
 var app = express();
 
 // Add CORS support
@@ -59,7 +59,9 @@ app.use(function (req, res, next) {
   res.locals.session = req.session;
   next();
 });
-app.use('/api/usageHistory',mailboxesRouter);
+
+
+app.use('/api', usageHistoryRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/mailboxes', mailboxesRouter);

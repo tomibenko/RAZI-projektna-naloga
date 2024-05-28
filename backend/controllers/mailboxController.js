@@ -21,29 +21,50 @@ module.exports = {
             });
         }
     },
-    addUsageHistory: async function (req, res) {
-        try {
-            const { id_pk, userId, success, scanResult } = req.body;
 
-            // Update the mailbox with the given id_pk
-            const mailbox = await MailboxModel.findOneAndUpdate(
-                { id_pk: id_pk },
-                { $push: { usageHistory: { user: userId, timestamp: new Date(), success: success, scanResult: scanResult } } },
-                { new: true } // Return the modified document
-            );
 
-            if (!mailbox) {
-                return res.status(404).json({
-                    message: 'Mailbox not found'
-                });
-            }
+   ///userid moremo spremenit v object id fix it or change model :()
+ addUsageHistory : async (req, res) => {
+    console.log('Inside addUsageHistory function');
+    try {
+        const { id_pk, userId, success } = req.body;
+        console.log(`Received request to add usage history: id_pk=${id_pk}, userId=${userId}, success=${success}`);
 
-            res.status(201).json({ message: 'Usage history added successfully' });
-        } catch (error) {
-            console.error('Error updating usage history:', error);
-            res.status(500).json({ error: 'Failed to update usage history' });
+        // Ensure id_pk and userId are present and valid
+        if (!id_pk || !userId) {
+            console.error('Invalid input data: id_pk or userId is missing');
+            return res.status(400).json({ message: 'Invalid input data' });
         }
-    },
+
+        // Find the mailbox with the given id_pk
+        const mailbox = await MailboxModel.findOne({ id_pk: id_pk });
+        console.log('Mailbox found:', mailbox);
+
+        if (!mailbox) {
+            console.error('Mailbox not found for id_pk:', id_pk);
+            return res.status(404).json({ message: 'Mailbox not found' });
+        }
+
+        // Convert userId to ObjectId
+        const userObjectId = new ObjectId(userId);
+
+        // Update the mailbox
+        mailbox.usageHistory.push({
+            user: userObjectId,
+            timestamp: new Date(),
+            success: success
+        });
+
+        const updatedMailbox = await mailbox.save();
+        console.log('Updated mailbox:', updatedMailbox);
+
+        res.status(201).json({ message: 'Usage history added successfully', mailbox: updatedMailbox });
+    } catch (error) {
+        console.error('Error updating usage history:', error);
+        res.status(500).json({ error: 'Failed to update usage history' });
+    }
+},
+    
     /**
      * mailboxController.show()
      */

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
 var mailboxSchema = new Schema({
-	'id_pk' : Number,
+	'id_pk' : { type: Number, unique: true, index: true },
 	'location' : String,
 	'status' : String,
 	'size' : String,
@@ -19,12 +19,12 @@ var mailboxSchema = new Schema({
 		},
 		timestamp : {
 			type: Date, 
-			default: Date.now()
+			default: Date.now
 		},
-		   success: {
-            type: Boolean,
-            default: false
-        }
+		success: {
+			type: Boolean,
+			default: false
+		}
 	}],
 	'batteryStatus' : String
 });

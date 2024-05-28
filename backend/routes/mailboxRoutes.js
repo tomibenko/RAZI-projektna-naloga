@@ -7,7 +7,7 @@ var mailboxController = require('../controllers/mailboxController.js');
  */
 router.get('/', mailboxController.list);
 router.get('/create', mailboxController.showCreate);
-router.post('/api/usageHistory', mailboxController.addUsageHistory);
+
 
 /*
  * GET
