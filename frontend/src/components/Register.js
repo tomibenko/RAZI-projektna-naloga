@@ -1,18 +1,17 @@
 import { useState } from 'react';
 
+function Register() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
 
-function Register(){
-    const [username, setUsername] = useState([]);
-    const [password, setPassword] = useState([]);
-    const [email, setEmail] = useState([]);
-    const [error, setError] = useState([]);
-
-    async function Login(e){
+    async function handleRegister(e) {
         e.preventDefault();
         const res = await fetch("http://localhost:3001/users", {
             method: 'POST',
             credentials: 'include',
-            headers: { 'Content-Type' : "application/json" },
+            headers: { 'Content-Type': "application/json" },
             body: JSON.stringify({
                 email: email,
                 username: username,
@@ -20,10 +19,9 @@ function Register(){
             })
         });
         const data = await res.json();
-        if(data._id !== undefined){
-            window.location.href="/";
-        }
-        else{
+        if (data._id !== undefined) {
+            window.location.href = "/";
+        } else {
             setUsername("");
             setPassword("");
             setEmail("");
@@ -33,24 +31,34 @@ function Register(){
 
     return (
         <div>
-            <form onSubmit={Register}>
+            <form onSubmit={handleRegister}>
                 <h1>Register</h1>
 
-                <h1>Login</h1>
+                <input
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
 
-                <input type="text" name="email" placeholder="Email" 
-                value={email}
-                onChange={(e) => (setEmail(e.target.value))}/>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
 
-                <input type="text" name="username" placeholder="Username" 
-                value={username}
-                onChange={(e) => (setUsername(e.target.value))}/>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-                <input type="password" name="password" placeholder="Password" 
-                value={password}
-                onChange={(e) => (setPassword(e.target.value))}/>
-
-                <input type="submit" name="submit" value="Register"/>
+                <input type="submit" name="submit" value="Register" />
                 <label>{error}</label>
             </form>
         </div>
