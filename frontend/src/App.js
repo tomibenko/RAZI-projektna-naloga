@@ -8,6 +8,7 @@ import Register from "./components/Register";
 import Logout from "./components/Logout";
 import Profile from "./components/Profile";
 import Home from "./components/Home";
+import History from './components/History';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path='/register' element={<Register/>}></Route>
             <Route path='/profile' element={<Profile/>}></Route>
             <Route path='/logout' element={<Logout/>}></Route>
+            <Route path='/history' element={<History/>}></Route>
           </Routes>
         </div>
       </UserContext.Provider>

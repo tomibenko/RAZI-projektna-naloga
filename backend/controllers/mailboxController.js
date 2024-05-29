@@ -22,6 +22,65 @@ module.exports = {
         }
     },
 
+    getUserHistory: async function (req, res) {
+        console.log('Session User1234:', req.session.userId);  // Log the session user ID
+        try {
+            const userId = req.session.userId;
+            if (!userId) {
+                console.log('No user ID found in session.');
+                return res.status(400).json({
+                    message: 'User ID is required.'
+                });
+            }
+
+            const mailboxes = await MailboxModel.find({ owner: userId });
+            if (!mailboxes.length) {
+                return res.status(404).json({
+                    message: 'No mailboxes found for this user.'
+                });
+            }
+
+            let userHistory = [];
+            mailboxes.forEach(mailbox => {
+                mailbox.usageHistory.forEach(history => {
+                    if (history.user.toString() === userId) {
+                        userHistory.push(history);
+                    }
+                });
+            });
+
+            return res.json(userHistory);
+        } catch (err) {
+            console.error('Error when getting user history:', err);  // Log the full error
+            return res.status(500).json({
+                message: 'Error when getting user history.',
+                error: err.message  // Send the error message in the response
+            });
+        }
+    },
+
+    getUserMailboxes: async function (req, res) {
+        console.log('Session User:', req.session.userId);  // Log the session user ID
+        try {
+            const userId = req.session.userId;
+            if (!userId) {
+                console.log('No user ID found in session.');
+                return res.status(400).json({
+                    message: 'User ID is required.'
+                });
+            }
+
+            const mailboxes = await MailboxModel.find({ owner: userId });
+            console.log('Mailboxes found:', mailboxes);
+            return res.json(mailboxes);
+        } catch (err) {
+            console.error('Error when getting user mailboxes:', err);  // Log the full error
+            return res.status(500).json({
+                message: 'Error when getting user mailboxes.',
+                error: err.message  // Send the error message in the response
+            });
+        }
+    },
 
    ///userid moremo spremenit v object id fix it or change model :()
  addUsageHistory : async (req, res) => {
@@ -46,11 +105,11 @@ module.exports = {
         }
 
         // Convert userId to ObjectId
-        const userObjectId = new ObjectId(userId);
+        
 
         // Update the mailbox
         mailbox.usageHistory.push({
-            user: userObjectId,
+            user: userId,
             timestamp: new Date(),
             success: success
         });
@@ -92,14 +151,16 @@ module.exports = {
      * mailboxController.create()
      */
     create: async function (req, res) {
+        console.log('Session User:', req.session.userId);
         try {
             const mailbox = new MailboxModel({
                 id_pk: req.body.id_pk,
                 location: req.body.location,
+                owner: req.session.userId,
                 size: req.body.size,
                 accessCode: req.body.accessCode,
             });
-    
+           
             const savedMailbox = await mailbox.save();
             return res.redirect('/mailboxes');
         } catch (err) {

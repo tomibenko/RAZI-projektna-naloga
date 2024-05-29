@@ -81,7 +81,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-const port = 3000;
+const port = 3003;
 app.listen(port, () => {
   console.log(`Server is running on http://185.85.148.40:${port}`);
 });
