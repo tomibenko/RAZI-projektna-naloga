@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../App.css';
 
 function Home(){
    
@@ -18,12 +19,12 @@ function Home(){
     }, []);
 
     return (
-        <div>
+        <div className="home">
             <h1>User Mailboxes</h1>
             {mailboxes.length > 0 ? (
-                <ul>
+                <ul className="mailbox-list">
                     {mailboxes.map(mailbox => (
-                        <li key={mailbox.id_pk}>
+                        <li key={mailbox.id_pk} className="mailbox-item">
                             <h2>Mailbox ID: {mailbox.id_pk}</h2>
                             <p>Location: {mailbox.location}</p>
                             <p>Status: {mailbox.status}</p>

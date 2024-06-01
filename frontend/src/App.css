@@ -1,5 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background-color: #1c1c1c;
+  color: #dcdcdc;
+}
+
 .App {
   text-align: center;
+  background-color: #1c1c1c;
+  color: #dcdcdc;
 }
 
 .App-header {
@@ -8,29 +24,120 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.699);
+  color: #dcdcdc;
   padding: 20px;
 }
 
-.App-header h1{
+.App-header h1 {
   margin: 0 0 20px 0;
 }
 
-.navbar{
+.navbar {
   display: flex;
   gap: 15px;
 }
 
-.navbar a{
-  color: white;
+.navbar a {
+  color: #dcdcdc;
   text-decoration: none;
   margin: 0 15px;
 }
 
-.navbar a:hover{
-  color: #ccc;
+.navbar a:hover {
+  color: #a9a9a9;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.home,
+.history {
+  padding: 20px;
+}
+.profile,
+.login,
+.register {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 45vh;
+}
+
+.mailbox-list,
+.history-list {
+  list-style: none;
+  padding: 0;
+}
+
+.mailbox-item,
+.history-item {
+  background-color: #2e2e2e;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+}
+.profile-card,
+.login-card,
+.register-card{
+  background-color: #2e2e2e;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 100%;
+
+}
+
+.mailbox-item h2,
+.history-item h2,
+.profile-card h2,
+.login-card h2,
+.register-card h2 {
+  margin: 0 0 10px 0;
+  color: #61dafb;
+}
+
+.mailbox-item p,
+.history-item p,
+.history-item p,
+.profile-card p,
+.login-card p,
+.register-card p {
+  margin: 5px 0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #333;
+  color: #dcdcdc;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #3d85c6;
+  border: none;
+  border-radius: 5px;
+  color: #1c1c1c;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: rgb(0, 116, 189);
+}
+
+label {
+  color: #f00;
 }

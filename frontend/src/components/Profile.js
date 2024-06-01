@@ -16,16 +16,16 @@ function Profile(){
     }, []);
 
     return (
-        <>
-            <div>
+        <div className="profile">
+            <div className="profile-card">
                 {!userContext.user ? <Navigate replace to="/login"/> : ""}
                 <h1>User profile</h1>
                 <div>
-                    <p>Username: {profile.username}</p>
-                    <p>Email: {profile.email}</p>
+                    <p style={{ fontSize: '1.2em' }}>Username: {profile.username}</p>
+                    <p style={{ fontSize: '1.2em' }}>Email: {profile.email}</p>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

@@ -31,8 +31,8 @@ function Login(){
     }
 
     return (
-        <div>
-            <form onSubmit={Login}>
+        <div className="login">
+            <form onSubmit={Login} className="login-card">
                 {userContext.user ? <Navigate replace to="/"/> : ""}
 
                 <h1>Login</h1>

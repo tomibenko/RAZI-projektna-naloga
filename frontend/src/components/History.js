@@ -23,12 +23,12 @@ function History(){
     }, []);
 
     return (
-        <div>
+        <div className="History">
             <h1>User History</h1>
             {history.length > 0 ? (
-                <ul>
+                <ul className="history-list">
                     {history.map((entry, index) => (
-                        <li key={index}>
+                        <li key={index} className="history-item">
                             <p>Mailbox ID: {entry.mailboxId}</p>
                             <p>Timestamp: {new Date(entry.timestamp).toLocaleString()}</p>
                             <p>Success: {entry.success ? 'Yes' : 'No'}</p>
