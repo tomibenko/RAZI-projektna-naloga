@@ -172,5 +172,34 @@ module.exports = {
         catch(err){
          return next(err);
         }
+    },
+
+    toggle2fa: async function(req, res){
+        try{
+            const userId = req.session.userId;
+            const user = await UserModel.findById(userId).exec();
+
+            if(!user){
+                return res.status(404).json({
+                    message: "No such user"
+                });
+            }
+
+            user.enabled2fa = !user.enabled2fa
+
+            await user.save();
+
+            return res.json({
+                message: "2FA enabled!",
+                enabled2fa: user.enabled2fa
+            });
+            
+        }
+        catch(err){
+            return res.status(500).json({
+                message: 'Error when toggling 2FA.',
+                error: err
+            });
+        }
     }
 };

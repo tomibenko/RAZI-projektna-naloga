@@ -6,7 +6,11 @@ var userSchema = new Schema({
 	'username' : String,
 	'email' : String,
 	'password' : String,
-    'image': String
+    'image': String,
+    'enabled2fa' : {
+        type: Boolean,
+        default: false
+    }
 });
 
 userSchema.pre('save', async function(next){
