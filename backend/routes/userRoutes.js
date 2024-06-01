@@ -22,7 +22,6 @@ router.get('/:id', userController.show);
 router.post('/', userController.create);
 router.post('/login', userController.login);
 router.post('/toggle2fa', userController.toggle2fa);
-
 /*
  * PUT
  */

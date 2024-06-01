@@ -28,17 +28,17 @@ module.exports = {
      * userController.show()
      */
     show: async function (req, res) {
-        
+
         try {
             var id = req.params.id;
-            const user = await UserModel.findOne({_id: id});
-            
+            const user = await UserModel.findOne({ _id: id });
+
             if (!user) {
                 return res.status(404).json({
                     message: 'No such user'
                 });
             }
-    
+
             return res.json(user);
         } catch (err) {
             return res.status(500).json({
@@ -47,12 +47,12 @@ module.exports = {
             });
         }
     },
-    
+
     /**
      * userController.create()
      */
     create: async function (req, res) {
-        try{
+        try {
             const user = new UserModel({
                 username: req.body.username,
                 email: req.body.email,
@@ -63,7 +63,7 @@ module.exports = {
             //return res.redirect('/users/login');
             return res.status(201).json(user);
         }
-        catch(err){
+        catch (err) {
             return res.status(500).json({
                 message: 'Error when creating user.',
                 error: err
@@ -75,25 +75,25 @@ module.exports = {
      * userController.update()
      */
     update: async function (req, res) {
-        try{
+        try {
             var id = req.params.id;
-            const user = await UserModel.findOne({_id: id}).exec();
+            const user = await UserModel.findOne({ _id: id }).exec();
 
-            if(!user){
+            if (!user) {
                 return res.status(404).json({
                     message: 'No such user'
                 });
             }
 
             user.username = req.body.username ? req.body.username : user.username;
-			user.email = req.body.email ? req.body.email : user.email;
-			user.password = req.body.password ? req.body.password : user.password;
+            user.email = req.body.email ? req.body.email : user.email;
+            user.password = req.body.password ? req.body.password : user.password;
 
             const updatedUser = await user.save();
             return res.json(updatedUser);
 
         }
-        catch(err){
+        catch (err) {
             return res.status(500).json({
                 message: 'Error when updating user.',
                 error: err
@@ -129,19 +129,19 @@ module.exports = {
 
     login: async function (req, res, next) {
 
-        try{
+        try {
             const user = await UserModel.authenticate(req.body.username, req.body.password);
+            
             req.session.userId = user._id;
-            //return res.redirect('/users/profile');
             return res.json(user);
         }
-        catch(err){
+        catch (err) {
             const error = new Error('Wrong username or password');
             error.status = 401;
             return next(error);
         }
     },
-    
+
     logout: function (req, res, next) {
         if (req.session) {
             req.session.destroy(function (err) {
@@ -156,30 +156,30 @@ module.exports = {
     },
 
     profile: async function (req, res, next) {
-        try{
+        try {
             const user = await UserModel.findById(req.session.userId).exec();
 
-            if(!user){
+            if (!user) {
                 const err = new Error('Not authorized! Go back!');
                 err.status = 400;
                 return next(err);
             }
-            else{
+            else {
                 //return res.render('user/profile', user);
                 return res.json(user);
             }
         }
-        catch(err){
-         return next(err);
+        catch (err) {
+            return next(err);
         }
     },
 
-    toggle2fa: async function(req, res){
-        try{
+    toggle2fa: async function (req, res) {
+        try {
             const userId = req.session.userId;
             const user = await UserModel.findById(userId).exec();
 
-            if(!user){
+            if (!user) {
                 return res.status(404).json({
                     message: "No such user"
                 });
@@ -193,9 +193,9 @@ module.exports = {
                 message: "2FA enabled!",
                 enabled2fa: user.enabled2fa
             });
-            
+
         }
-        catch(err){
+        catch (err) {
             return res.status(500).json({
                 message: 'Error when toggling 2FA.',
                 error: err

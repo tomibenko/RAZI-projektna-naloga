@@ -4,6 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Firebase admin setup
+var admin = require('firebase-admin');
+var serviceAccount = require('./pametni-paketnik-projekt-firebase-adminsdk-5swzv-620cb54a09.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+
 // Set up mongoose connection
 var mongoose = require('mongoose');
 var mongoDB = "mongodb+srv://zanluka:g1NmZuoD4MHnACDp@razvojapkzainternet.tb9k65s.mongodb.net/project";
