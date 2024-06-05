@@ -146,14 +146,19 @@ module.exports = {
         if (req.session) {
             req.session.destroy(function (err) {
                 if (err) {
+                    console.error('Error destroying session:', err);
                     return next(err);
                 } else {
-                    //return res.redirect('/');
-                    return res.status(201).json({});
+                    console.log('Session destroyed successfully');
+                    return res.status(201).json({ message: 'Logged out successfully' });
                 }
             });
+        } else {
+            console.log('No session to destroy');
+            return res.status(400).json({ message: 'No session to destroy' });
         }
     },
+    
 
     profile: async function (req, res, next) {
         try {

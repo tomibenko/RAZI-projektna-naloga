@@ -27,6 +27,7 @@ router.get('/:id', mailboxController.show);
  * POST
  */
 router.post('/', mailboxController.create);
+router.post('/addOwner', mailboxController.addOwner);
 
 /*
  * PUT

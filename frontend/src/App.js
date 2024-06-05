@@ -9,6 +9,7 @@ import Logout from "./components/Logout";
 import Profile from "./components/Profile";
 import Home from "./components/Home";
 import History from './components/History';
+import AddOwner from './components/AddOwner';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
             <Route path='/profile' element={<Profile/>}></Route>
             <Route path='/logout' element={<Logout/>}></Route>
             <Route path='/history' element={<History/>}></Route>
+            <Route path="/add-owner" element={<AddOwner/>}></Route>
           </Routes>
         </div>
       </UserContext.Provider>

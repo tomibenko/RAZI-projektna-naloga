@@ -1,20 +1,26 @@
 import { useEffect, useContext } from 'react';
 import { UserContext } from '../userContext';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-function Logout(){
+function Logout() {
     const userContext = useContext(UserContext);
-    useEffect(function(){
-        const logout = async function(){
-            userContext.setUserContext(null);
-            const res = await fetch("http://localhost:3001/users/logout");
-        }
-        logout();
-    }, []);
+    const navigate = useNavigate();
 
-    return (
-        <Navigate replace to="/"/>
-    );
+    useEffect(() => {
+        const logout = async () => {
+            try {
+                await axios.post('http://localhost:3001/users/logout', {}, { withCredentials: true });
+                console.log('Logged out successfully');
+                userContext.setUserContext(null);
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
+        };
+        logout();
+    }, [navigate, userContext]);
+
+    return null; // Or return a loading indicator while logging out
 }
 
 export default Logout;

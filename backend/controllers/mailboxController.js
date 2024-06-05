@@ -1,4 +1,6 @@
 var MailboxModel = require('../models/mailboxModel.js');
+const User = require('../models/userModel.js');
+var UserModel= require('../models/userModel.js');
 
 /**
  * mailboxController.js
@@ -23,7 +25,7 @@ module.exports = {
     },
 
     getUserHistory: async function (req, res) {
-        console.log('Session User1234:', req.session.userId);  // Log the session user ID
+        console.log('Session User:', req.session.userId);  // Log the session user ID
         try {
             const userId = req.session.userId;
             if (!userId) {
@@ -32,14 +34,24 @@ module.exports = {
                     message: 'User ID is required.'
                 });
             }
-
-            const mailboxes = await MailboxModel.find({ owner: userId });
+    
+            // Find mailboxes where the user is an owner and still has access
+            const currentDate = new Date();
+            const mailboxes = await MailboxModel.find({
+                owners: {
+                    $elemMatch: {
+                        user: userId,
+                        accessUntil: { $gt: currentDate }
+                    }
+                }
+            });
+    
             if (!mailboxes.length) {
                 return res.status(404).json({
-                    message: 'No mailboxes found for this user.'
+                    message: 'No mailboxes found for this user or access expired.'
                 });
             }
-
+    
             let userHistory = [];
             mailboxes.forEach(mailbox => {
                 mailbox.usageHistory.forEach(history => {
@@ -48,7 +60,7 @@ module.exports = {
                     }
                 });
             });
-
+    
             return res.json(userHistory);
         } catch (err) {
             console.error('Error when getting user history:', err);  // Log the full error
@@ -57,7 +69,87 @@ module.exports = {
                 error: err.message  // Send the error message in the response
             });
         }
+    },    
+
+    addOwner: async function (req, res) {
+        console.log('Inside addOwner function');
+        try {
+            const { username, id_pk, accessUntil } = req.body;
+            console.log(`Received request to add owner: username=${username}, id_pk=${id_pk}, accessUntil=${accessUntil}`);
+
+            if (!username || !id_pk || !accessUntil) {
+                console.error('Invalid input data: username, id_pk, or accessUntil is missing');
+                return res.status(400).json({ message: 'Invalid input data' });
+            }
+
+            // Find the user with the given username
+            const user = await UserModel.findOne({ username: username });
+            if (!user) {
+                console.error('User not found for username:', username);
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            // Find the mailbox with the given id_pk
+            const mailbox = await MailboxModel.findOne({ id_pk: id_pk });
+            if (!mailbox) {
+                console.error('Mailbox not found for id_pk:', id_pk);
+                return res.status(404).json({ message: 'Mailbox not found' });
+            }
+
+            // Add the new owner to the owners array
+            mailbox.owners.push({
+                user: user._id,
+                accessUntil: new Date(accessUntil)
+            });
+
+            const updatedMailbox = await mailbox.save();
+            console.log('Updated mailbox:', updatedMailbox);
+
+            res.status(201).json({ message: 'Owner added successfully', mailbox: updatedMailbox });
+        } catch (error) {
+            console.error('Error adding owner:', error);
+            res.status(500).json({ error: 'Failed to add owner' });
+        }
     },
+   
+    checkUserAccess: async function (req, res) {
+        console.log('Inside checkUserAccess function');
+        try {
+            const { userId, id_pk } = req.body;
+            console.log(`Received request to check user access: userId=${userId}, id_pk=${id_pk}`);
+
+            if (!userId || !id_pk) {
+                console.error('Invalid input data: userId or id_pk is missing');
+                return res.status(400).json({ message: 'Invalid input data' });
+            }
+
+            // Find the mailbox with the given id_pk
+            const mailbox = await MailboxModel.findOne({ id_pk: id_pk });
+            console.log('Mailbox found:', mailbox);
+
+            if (!mailbox) {
+                console.error('Mailbox not found for id_pk:', id_pk);
+                return res.status(404).json({ message: 'Mailbox not found' });
+            }
+
+            // Check if the user is an owner and if they still have access
+            const currentDate = new Date();
+            const owner = mailbox.owners.find(owner => owner.user.toString() === userId && owner.accessUntil > currentDate);
+
+            if (owner) {
+                console.log('User has access to the mailbox:', owner);
+                return res.json({ access: true });
+            } else {
+                console.log('User does not have access to the mailbox');
+                return res.json({ access: false });
+            }
+        } catch (error) {
+            console.error('Error checking user access:', error);
+            res.status(500).json({ error: 'Failed to check user access' });
+        }
+    },
+
+
 
     getUserMailboxes: async function (req, res) {
         console.log('Session User:', req.session.userId);  // Log the session user ID
@@ -69,8 +161,24 @@ module.exports = {
                     message: 'User ID is required.'
                 });
             }
-
-            const mailboxes = await MailboxModel.find({ owner: userId });
+    
+            // Find mailboxes where the user is an owner and still has access
+            const currentDate = new Date();
+            const mailboxes = await MailboxModel.find({
+                owners: {
+                    $elemMatch: {
+                        user: userId,
+                        accessUntil: { $gt: currentDate }
+                    }
+                }
+            });
+    
+            if (!mailboxes.length) {
+                return res.status(404).json({
+                    message: 'No mailboxes found for this user or access expired.'
+                });
+            }
+    
             console.log('Mailboxes found:', mailboxes);
             return res.json(mailboxes);
         } catch (err) {
@@ -81,6 +189,7 @@ module.exports = {
             });
         }
     },
+    
 
    ///userid moremo spremenit v object id fix it or change model :()
  addUsageHistory : async (req, res) => {
@@ -153,14 +262,21 @@ module.exports = {
     create: async function (req, res) {
         console.log('Session User:', req.session.userId);
         try {
+            // Izračunajte datum čez 999 let
+            const accessUntilDate = new Date();
+            accessUntilDate.setFullYear(accessUntilDate.getFullYear() + 999);
+    
             const mailbox = new MailboxModel({
                 id_pk: req.body.id_pk,
                 location: req.body.location,
-                owner: req.session.userId,
                 size: req.body.size,
                 accessCode: req.body.accessCode,
+                owners: [{
+                    user: req.session.userId,
+                    accessUntil: accessUntilDate
+                }]
             });
-           
+    
             const savedMailbox = await mailbox.save();
             return res.redirect('/mailboxes');
         } catch (err) {
@@ -170,6 +286,7 @@ module.exports = {
             });
         }
     },
+    
 
     /**
      * mailboxController.update()

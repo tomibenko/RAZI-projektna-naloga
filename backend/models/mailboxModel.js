@@ -6,10 +6,13 @@ var mailboxSchema = new Schema({
 	'location' : String,
 	'status' : String,
 	'size' : String,
-	'owner' : {
-		type: Schema.Types.ObjectId,
-		ref: 'user'
-	},
+	'owners' : [{
+		user: {
+			type: Schema.Types.ObjectId,
+			ref: 'user'
+		},
+		accessUntil: Date
+	}],
 	'accessCode' : String,
 	'installationDate' : Date,
 	'usageHistory' : [{
