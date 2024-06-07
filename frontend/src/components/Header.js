@@ -1,11 +1,12 @@
 import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
 import '../App.css';
+import logo from "../images/logo.png";
 
 function Header(props) {
     return (
         <header className="App-header">
-            <h1>{props.title}</h1>
+            <img src={logo} alt="Company logo" className="logo"></img>
             <nav className="navbar">
                 <Link to='/'>Home</Link>
                 <UserContext.Consumer>

@@ -19,12 +19,12 @@ function Home(){
     }, []);
 
     return (
-        <div className="home">
-            <h1>User Mailboxes</h1>
+        <div className="home fade-in">
+            <h1 className="section-title">User Mailboxes</h1>
             {mailboxes.length > 0 ? (
-                <ul className="mailbox-list">
+                <ul>
                     {mailboxes.map(mailbox => (
-                        <li key={mailbox.id_pk} className="mailbox-item">
+                        <li key={mailbox.id_pk} className="mailbox-item gradient-background">
                             <h2>Mailbox ID: {mailbox.id_pk}</h2>
                             <p>Location: {mailbox.location}</p>
                             <p>Status: {mailbox.status}</p>

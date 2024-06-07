@@ -28,17 +28,25 @@ function App() {
       }}>
         <div className="App">
           <Header title="CyberBoxTech smart mailbox"></Header>
-          <Routes>
-            <Route path='/' exact element={<Home/>}></Route>
-            <Route path='/login' exact element={<Login/>}></Route>
-            <Route path='/register' element={<Register/>}></Route>
-            <Route path='/profile' element={<Profile/>}></Route>
-            <Route path='/logout' element={<Logout/>}></Route>
-            <Route path='/history' element={<History/>}></Route>
-            <Route path="/add-owner" element={<AddOwner/>}></Route>
-          </Routes>
+          <div className="container">
+            <Routes>
+              <Route path='/' exact element={<Home/>}></Route>
+              <Route path='/login' exact element={<Login/>}></Route>
+              <Route path='/register' element={<Register/>}></Route>
+              <Route path='/profile' element={<Profile/>}></Route>
+              <Route path='/logout' element={<Logout/>}></Route>
+              <Route path='/history' element={<History/>}></Route>
+              <Route path="/add-owner" element={<AddOwner/>}></Route>
+            </Routes>
+          </div>
+          <footer className="footer">
+            <p>Contact: +386 04 111 222</p>
+            <p>E-mail: info@cyberboxtech.com</p>
+            <p>All rights reserved&reg;</p>
+          </footer>
         </div>
       </UserContext.Provider>
+
     </BrowserRouter>
     
   );

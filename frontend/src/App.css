@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +12,14 @@ body,
   height: 100%;
   background-color: #1c1c1c;
   color: #dcdcdc;
+  font-family: "Montserrat", sans-serif;
+  padding-bottom: 100px;
+}
+
+h1, h2 {
+  color: #61dafb;
+  font-size: 2.5em;
+  font-weight: bold;
 }
 
 .App {
@@ -24,90 +34,105 @@ body,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #dcdcdc;
-  padding: 20px;
+  position: relative;
 }
 
 .App-header h1 {
   margin: 0 0 20px 0;
+  font-size: 2.5em;
+  color: #61dafb;
+  padding-bottom: 40px;
+}
+
+.logo {
+  width: 450px;
+  margin-bottom: 15px;
+  margin-top: 30px;
 }
 
 .navbar {
   display: flex;
   gap: 15px;
+  margin-top: 10px;
 }
 
 .navbar a {
   color: #dcdcdc;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
   margin: 0 15px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  position: relative; /* Needed for the ::after pseudo-element */
+  transition: color 0.3s;
+}
+
+.navbar a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  bottom: 0; /* Position it at the bottom */
+  left: 50%; /* Start from the center */
+  background: #61dafb;
+  transition: width 0.4s ease, left 0.4s ease;
+}
+
+.navbar a:hover::after {
+  width: 100%;
+  left: 0;
 }
 
 .navbar a:hover {
   color: #a9a9a9;
 }
 
+.navbar a:active {
+  background-color: #555;
+}
+
 .App-link {
   color: #61dafb;
 }
 
-.home,
-.history {
-  padding: 20px;
-}
-.profile,
-.login,
-.register {
+.container {
+  border-radius: 8px;
+  margin: 40px;
   padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 45vh;
 }
 
-.mailbox-list,
-.history-list {
-  list-style: none;
-  padding: 0;
+.section-title {
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
-.mailbox-item,
-.history-item {
+.card {
   background-color: #2e2e2e;
-  margin: 20px 0;
+  margin: 0 auto;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-
-}
-.profile-card,
-.login-card,
-.register-card{
-  background-color: #2e2e2e;
-  margin: 20px 0;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  max-width: 600px;
-  width: 100%;
-
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 500px;
 }
 
-.mailbox-item h2,
-.history-item h2,
-.profile-card h2,
-.login-card h2,
-.register-card h2 {
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.card h2 {
   margin: 0 0 10px 0;
   color: #61dafb;
 }
 
-.mailbox-item p,
-.history-item p,
-.history-item p,
-.profile-card p,
-.login-card p,
-.register-card p {
+.card p {
   margin: 5px 0;
 }
 
@@ -122,9 +147,18 @@ input[type="email"] {
   box-sizing: border-box;
   background-color: #333;
   color: #dcdcdc;
+  transition: background-color 0.3s;
 }
 
-input[type="submit"], button {
+input[type="text"],
+input[type="password"],
+input[type="email"], 
+input[type="datetime-local"]:focus {
+  background-color: #444;
+}
+
+input[type="submit"],
+button {
   width: 100%;
   padding: 10px;
   background-color: #3d85c6;
@@ -132,12 +166,105 @@ input[type="submit"], button {
   border-radius: 5px;
   color: #1c1c1c;
   cursor: pointer;
+  transition: background-color 0.5s, transform 0.2s;
 }
 
-input[type="submit"]:hover, button:hover {
-  background-color: rgb(0, 116, 189);
+input[type="submit"]:hover,
+button:hover {
+  background-color: #61dafb
 }
 
-label {
-  color: #f00;
+input[type="submit"]:active,
+button:active {
+  transform: scale(0.95);
 }
+
+label, p {
+  color: #dcdcdc;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input[type="datetime-local"] {
+  background-color: #333;
+  color: #dcdcdc;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.footer {
+  background-color: #2a2d34;
+  color: #dcdcdc;
+  padding: 20px;
+  text-align: center;
+  margin-top: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.image-overlay {
+  position: relative;
+  display: inline-block;
+}
+
+.image-overlay img {
+  display: block;
+}
+
+.image-overlay .overlay-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.gradient-background {
+  background: linear-gradient(45deg, #262626, #3d85c6);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.mailbox-item, .history-item { 
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.mailbox-item h2, .history-item h2 {
+  flex: 1;
+}
+
+.mailbox-item, .history-item p {
+  flex: 3;
+}
+
+
+.mailbox-item:hover, .history-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+

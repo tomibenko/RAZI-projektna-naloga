@@ -23,42 +23,44 @@ function AddOwner() {
     };
 
     return (
-        <div className="AddOwner">
-            <h1>Add Owner to Mailbox</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="id_pk">Mailbox ID:</label>
-                    <input
-                        type="text"
-                        id="id_pk"
-                        value={id_pk}
-                        onChange={(e) => setIdPk(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="accessUntil">Access Until:</label>
-                    <input
-                        type="datetime-local"
-                        id="accessUntil"
-                        value={accessUntil}
-                        onChange={(e) => setAccessUntil(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Add Owner</button>
-            </form>
-            {message && <p>{message}</p>}
+        <div className="AddOwner fade-in">
+            <div className="card">
+                <h1 className="section-title">Add Owner to Mailbox</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="username">Username:</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="id_pk">Mailbox ID:</label>
+                        <input
+                            type="text"
+                            id="id_pk"
+                            value={id_pk}
+                            onChange={(e) => setIdPk(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="accessUntil">Access Until:</label>
+                        <input
+                            type="datetime-local"
+                            id="accessUntil"
+                            value={accessUntil}
+                            onChange={(e) => setAccessUntil(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit">Add Owner</button>
+                </form>
+                {message && <p>{message}</p>}
+            </div>
         </div>
     );
 }

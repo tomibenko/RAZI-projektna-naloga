@@ -30,8 +30,8 @@ function Register() {
     }
 
     return (
-        <div className="register">
-            <form onSubmit={handleRegister} className="register-card">
+        <div className="register fade-in">
+            <form onSubmit={handleRegister} className="card">
                 <h1>Register</h1>
 
                 <input

@@ -30,14 +30,14 @@ function Profile(){
     };
 
     return (
-        <div className="profile">
-            <div className="profile-card">
+        <div className="profile fade-in">
+            <div className="card">
                 {!userContext.user ? <Navigate replace to="/login"/> : ""}
                 <h1>User profile</h1>
                 <div>
                     <p style={{ fontSize: '1.2em' }}>Username: {profile.username}</p>
                     <p style={{ fontSize: '1.2em' }}>Email: {profile.email}</p>
-                    <p style={{ fontSize: '1.2em' }}>2 factor authentication: {enabled2fa ? 'Enabled' : 'Disabled'}</p>
+                    <p style={{ fontSize: '1.2em' }}>Two-factor authentication: {enabled2fa ? 'Enabled' : 'Disabled'}</p>
                     <button onClick={toggle2fa}>
                         {enabled2fa ? 'Disable 2FA' : 'Enable 2FA'}
                     </button>

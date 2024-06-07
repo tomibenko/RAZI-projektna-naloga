@@ -23,12 +23,12 @@ function History(){
     }, []);
 
     return (
-        <div className="History">
-            <h1>User History</h1>
+        <div className="History fade-in">
+            <h1 className="section-title">User History</h1>
             {history.length > 0 ? (
                 <ul className="history-list">
                     {history.map((entry, index) => (
-                        <li key={index} className="history-item">
+                        <li key={index} className="history-item gradient-background">
                             <p>Mailbox ID: {entry.mailboxId}</p>
                             <p>Timestamp: {new Date(entry.timestamp).toLocaleString()}</p>
                             <p>Success: {entry.success ? 'Yes' : 'No'}</p>
