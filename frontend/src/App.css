@@ -10,10 +10,25 @@ html,
 body,
 #root {
   height: 100%;
+  width: 100%;
   background-color: #1c1c1c;
   color: #dcdcdc;
   font-family: "Montserrat", sans-serif;
-  padding-bottom: 100px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+#root {
+  display: flex;
+  flex: 1;
+  width: 100%;
 }
 
 h1, h2 {
@@ -26,6 +41,9 @@ h1, h2 {
   text-align: center;
   background-color: #1c1c1c;
   color: #dcdcdc;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .App-header {
@@ -99,10 +117,11 @@ h1, h2 {
 }
 
 .container {
+  flex: 1;
+  display: flex;
   border-radius: 8px;
   margin: 40px;
   padding: 20px;
-  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -202,8 +221,6 @@ input[type="datetime-local"] {
   padding: 20px;
   text-align: center;
   margin-top: 20px;
-  position: fixed;
-  bottom: 0;
   width: 100%;
 }
 
