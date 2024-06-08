@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../backend');
+const app = require('../app');
 const { expect } = require('chai');
 
 describe('User Login Workflow', () => {
