@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '../backend/app.mjs';
+import app from '../backend/app';
 
 describe('User Login Workflow', () => {
   before(async () => {
