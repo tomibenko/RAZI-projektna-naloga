@@ -1,6 +1,6 @@
-import request from 'supertest';
-import { expect } from 'chai';
-import app from '../backend/app';
+const request = require('supertest');
+const app = require('../backend/app');
+const { expect } = require('chai');
 
 describe('User Login Workflow', () => {
   before(async () => {

@@ -1,6 +1,6 @@
-import request from 'supertest';
-import { expect } from 'chai';
-import app from '../backend/app';
+const request = require('supertest');
+const app = require('../app');
+const { expect } = require('chai');
 
 describe('User Creation Workflow', () => {
   it('should create a new user', async () => {
