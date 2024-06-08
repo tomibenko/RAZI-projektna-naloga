@@ -1,6 +1,6 @@
-const request = require('supertest');
-const app = require('../app');
-const { expect } = require('chai');
+import request from 'supertest';
+import { expect } from 'chai';
+import app from '../backend/app.mjs';
 
 describe('User Login Workflow', () => {
   before(async () => {
