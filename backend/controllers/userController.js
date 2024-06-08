@@ -1,5 +1,5 @@
 var UserModel = require('../models/userModel.js');
-var bycrypt = require('bcrypt');
+var axios = require('axios');
 
 /**
  * userController.js
