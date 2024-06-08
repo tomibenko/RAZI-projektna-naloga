@@ -3,8 +3,8 @@ const app = require('../backend');
 const { expect } = require('chai');
 
 describe('User Login Workflow', () => {
-  it('should login user and verify login with Flask API', async () => {
-    // Najprej moramo ustvariti uporabnika, da se lahko prijavi
+  before(async () => {
+    // Ustvari uporabnika za testiranje prijave
     await request(app)
       .post('/users')
       .send({
@@ -12,8 +12,9 @@ describe('User Login Workflow', () => {
         email: 'testuser@example.com',
         password: 'password123'
       });
+  });
 
-    // Nato testiramo prijavo
+  it('should login user with correct credentials', async () => {
     const response = await request(app)
       .post('/users/login')
       .send({
@@ -23,5 +24,17 @@ describe('User Login Workflow', () => {
 
     expect(response.status).to.equal(200);
     expect(response.body.message).to.equal('Login successful, verification sent to mobile app');
+  });
+
+  it('should fail to login user with incorrect credentials', async () => {
+    const response = await request(app)
+      .post('/users/login')
+      .send({
+        username: 'testuser',
+        password: 'wrongpassword'
+      });
+
+    expect(response.status).to.equal(401);
+    expect(response.body.message).to.equal('Invalid username or password');
   });
 });
