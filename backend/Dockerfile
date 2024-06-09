@@ -15,6 +15,7 @@ COPY . .
 
 # Odprem vrata, na katerih aplikacija posluša
 EXPOSE 3001
+EXPOSE 3003
 
 # Določi ukaz za zaganjanje aplikacije
 CMD ["node", "app.js"]
