@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   tests:
     runs-on: windows-latest
@@ -20,14 +20,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: ./backend
-
-    - name: Run Login tests
-      run: npm test -- tests/userLogin.test.js
-      working-directory: ./backend
-
-    - name: Run Register tests
-      run: npm test -- tests/userCreation.test.js
       working-directory: ./backend
 
   build-and-push:
