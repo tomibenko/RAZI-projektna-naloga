@@ -8,7 +8,6 @@ on:
 jobs:
   tests:
     runs-on: windows-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -25,7 +24,6 @@ jobs:
   build-and-push:
     runs-on: windows-latest
     needs: tests
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -34,7 +32,7 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build Docker image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/razi-projektna-naloga
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/razi-projektna-naloga .
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/razi-projektna-naloga
