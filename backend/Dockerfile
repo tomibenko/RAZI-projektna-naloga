@@ -2,7 +2,7 @@
 FROM node:14
 
 # Določi delovni direktorij v Docker kontejnerju
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Kopiraj package.json in package-lock.json (če obstaja) v delovni direktorij
 COPY package*.json ./
