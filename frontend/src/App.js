@@ -10,6 +10,7 @@ import Profile from "./components/Profile";
 import Home from "./components/Home";
 import History from './components/History';
 import AddOwner from './components/AddOwner';
+import AddMailbox from './components/AddMailbox';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
               <Route path='/logout' element={<Logout/>}></Route>
               <Route path='/history' element={<History/>}></Route>
               <Route path="/add-owner" element={<AddOwner/>}></Route>
+              <Route path="/add-mailbox" element={<AddMailbox/>}></Route>
             </Routes>
           </div>
           <footer className="footer">

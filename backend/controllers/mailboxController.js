@@ -269,8 +269,6 @@ module.exports = {
             const mailbox = new MailboxModel({
                 id_pk: req.body.id_pk,
                 location: req.body.location,
-                size: req.body.size,
-                accessCode: req.body.accessCode,
                 owners: [{
                     user: req.session.userId,
                     accessUntil: accessUntilDate

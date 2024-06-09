@@ -26,12 +26,7 @@ function Home(){
                     {mailboxes.map(mailbox => (
                         <li key={mailbox.id_pk} className="mailbox-item gradient-background">
                             <h2>Mailbox ID: {mailbox.id_pk}</h2>
-                            <p>Location: {mailbox.location}</p>
-                            <p>Status: {mailbox.status}</p>
-                            <p>Size: {mailbox.size}</p>
-                            <p>Battery Status: {mailbox.batteryStatus}</p>
-                            <p>Installation Date: {new Date(mailbox.installationDate).toLocaleDateString()}</p>
-                           
+                            <p>Location: {mailbox.location}</p>                           
                         </li>
                     ))}
                 </ul>

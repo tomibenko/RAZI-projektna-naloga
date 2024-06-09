@@ -4,8 +4,6 @@ var Schema   = mongoose.Schema;
 var mailboxSchema = new Schema({
 	'id_pk' : { type: Number, unique: true, index: true },
 	'location' : String,
-	'status' : String,
-	'size' : String,
 	'owners' : [{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -13,8 +11,6 @@ var mailboxSchema = new Schema({
 		},
 		accessUntil: Date
 	}],
-	'accessCode' : String,
-	'installationDate' : Date,
 	'usageHistory' : [{
 		user : {
 			type: Schema.Types.ObjectId,
@@ -29,7 +25,6 @@ var mailboxSchema = new Schema({
 			default: false
 		}
 	}],
-	'batteryStatus' : String
 });
 
 module.exports = mongoose.model('mailbox', mailboxSchema);

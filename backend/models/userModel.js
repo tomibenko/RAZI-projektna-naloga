@@ -11,7 +11,6 @@ var userSchema = new Schema({
         type: Boolean,
         default: false
     }
-    //'fcmToken' : String
 });
 
 userSchema.pre('save', async function(next){
