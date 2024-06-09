@@ -23,6 +23,7 @@ router.post('/', userController.create);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/toggle2fa', userController.toggle2fa);
+router.post('/getId', userController.getId);
 /*
  * PUT
  */

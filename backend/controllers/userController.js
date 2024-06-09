@@ -206,5 +206,32 @@ module.exports = {
                 error: err
             });
         }
+    },
+
+    getId: async function(req, res){
+        try{
+            const username = req.body.username;
+            if(!username) {
+                return res.status(400).json({
+                    message: 'Username is required'
+                });
+            }
+
+            const user = UserModel.findOne({ username: username }).exec();
+            if(!user){
+                return res.status(404).json({
+                    message: "User not found"
+                });
+            }
+
+            return res.json({ _id: user._id })
+        }
+        catch(err){
+            return res.status(500).json({
+                message: 'Error when fetching user ID',
+                error: err
+            })
+            
+        }
     }
 };
