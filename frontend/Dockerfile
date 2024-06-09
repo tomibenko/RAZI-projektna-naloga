@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Odprem vrata, na katerih aplikacija posluša
-EXPOSE 3001
+EXPOSE 3000
 EXPOSE 3003
 
 # Določi ukaz za zaganjanje aplikacije
