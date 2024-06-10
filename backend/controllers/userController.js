@@ -217,7 +217,7 @@ module.exports = {
                 });
             }
 
-            const user = UserModel.findOne({ username: username }).exec();
+            const user = await UserModel.findOne({ username: username }).exec();
             if(!user){
                 return res.status(404).json({
                     message: "User not found"

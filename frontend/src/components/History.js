@@ -1,26 +1,35 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-function History(){
 
+function History() {
     const [mailboxes, setMailboxes] = useState([]);
     const [history, setHistory] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-      
-
         const getUserHistory = async () => {
             try {
                 const res = await axios.get("http://localhost:3001/mailboxes/getUserHistory", { withCredentials: true });
                 setHistory(res.data);
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching user history:', error);
+                setError(error);
+                setLoading(false);
             }
         };
 
-      
         getUserHistory();
     }, []);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>Error fetching user history: {error.message}</p>;
+    }
 
     return (
         <div className="History fade-in">
@@ -41,4 +50,5 @@ function History(){
         </div>
     );
 }
+
 export default History;

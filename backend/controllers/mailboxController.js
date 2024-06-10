@@ -24,8 +24,9 @@ module.exports = {
         }
     },
 
-    getUserHistory: async function (req, res) {
+    getUserHistory : async function (req, res) {
         console.log('Session User:', req.session.userId);  // Log the session user ID
+    
         try {
             const userId = req.session.userId;
             if (!userId) {
@@ -48,18 +49,25 @@ module.exports = {
     
             if (!mailboxes.length) {
                 return res.status(404).json({
-                    message: 'No mailboxes found for this user or access expired.'
+                    message: 'No mailboxes found for this user or access expired.',
                 });
             }
     
             let userHistory = [];
             mailboxes.forEach(mailbox => {
                 mailbox.usageHistory.forEach(history => {
-                    if (history.user.toString() === userId) {
-                        userHistory.push(history);
-                    }
+                    // Add mailbox ID to each history entry
+                    userHistory.push({
+                        ...history.toObject(),
+                        mailboxId: mailbox._id
+                    });
                 });
             });
+    
+            // Disable caching for this response
+            res.set('Cache-Control', 'no-store');
+            res.set('Pragma', 'no-cache');
+            res.set('Expires', '0');
     
             return res.json(userHistory);
         } catch (err) {
@@ -69,7 +77,11 @@ module.exports = {
                 error: err.message  // Send the error message in the response
             });
         }
-    },    
+    },
+    
+    
+  
+    
 
     addOwner: async function (req, res) {
         console.log('Inside addOwner function');
