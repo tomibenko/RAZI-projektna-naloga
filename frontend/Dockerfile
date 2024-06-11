@@ -13,6 +13,9 @@ RUN npm install
 # Kopiraj ostalo kodo aplikacije v delovni direktorij
 COPY frontend .
 
+# Gradnja aplikacije
+RUN npm run build
+
 # Odprem vrata za strežnik
 EXPOSE 3000
 EXPOSE 3003
