@@ -1,17 +1,17 @@
-# Uporabi uradno Node.js osnovno sliko z dolgotrajno podporo (LTS)
-FROM node:14
+# Uporabi uradno Node.js osnovno sliko
+FROM node:22.1.0
 
 # Določi delovni direktorij v Docker kontejnerju
 WORKDIR /app
 
-# Kopiraj package.json in package-lock.json (če obstaja) v delovni direktorij
-COPY package*.json ./
+# Kopiraj package.json in package-lock.json (če obstaja)
+COPY backend/package*.json ./
 
 # Namesti odvisnosti
 RUN npm install
 
 # Kopiraj ostalo kodo aplikacije v delovni direktorij
-COPY . .
+COPY backend .
 
 # Odprem vrata, na katerih aplikacija posluša
 EXPOSE 3001
