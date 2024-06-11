@@ -10,9 +10,6 @@ COPY backend/package*.json ./
 # Namesti odvisnosti
 RUN npm install
 
-# Kopiraj ostalo kodo aplikacije v delovni direktorij
-COPY ./backend .
-
 # Odprem vrata, na katerih aplikacija posluša
 EXPOSE 3001
 EXPOSE 3003
