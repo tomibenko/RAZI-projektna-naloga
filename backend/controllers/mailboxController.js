@@ -1,7 +1,7 @@
 var MailboxModel = require('../models/mailboxModel.js');
 const User = require('../models/userModel.js');
 var UserModel= require('../models/userModel.js');
-
+const axios = require('axios');
 /**
  * mailboxController.js
  *
@@ -124,42 +124,63 @@ module.exports = {
         }
     },
    
-    checkUserAccess: async function (req, res) {
-        console.log('Inside checkUserAccess function');
-        try {
-            const { userId, id_pk } = req.body;
-            console.log(`Received request to check user access: userId=${userId}, id_pk=${id_pk}`);
+    
 
-            if (!userId || !id_pk) {
-                console.error('Invalid input data: userId or id_pk is missing');
-                return res.status(400).json({ message: 'Invalid input data' });
-            }
+checkUserAccess: async function (req, res) {
+    console.log('Inside checkUserAccess function');
+    try {
+        const { userId, id_pk, access_time, device_location } = req.body;
+        console.log(`Received request: userId=${userId}, id_pk=${id_pk}, access_time=${access_time}, device_location=${device_location}`);
 
-            // Find the mailbox with the given id_pk
-            const mailbox = await MailboxModel.findOne({ id_pk: id_pk });
-            console.log('Mailbox found:', mailbox);
-
-            if (!mailbox) {
-                console.error('Mailbox not found for id_pk:', id_pk);
-                return res.status(404).json({ message: 'Mailbox not found' });
-            }
-
-            // Check if the user is an owner and if they still have access
-            const currentDate = new Date();
-            const owner = mailbox.owners.find(owner => owner.user.toString() === userId && owner.accessUntil > currentDate);
-
-            if (owner) {
-                console.log('User has access to the mailbox:', owner);
-                return res.json({ access: true });
-            } else {
-                console.log('User does not have access to the mailbox');
-                return res.json({ access: false });
-            }
-        } catch (error) {
-            console.error('Error checking user access:', error);
-            res.status(500).json({ error: 'Failed to check user access' });
+        if (!userId || !id_pk || !access_time || !device_location) {
+            console.error('Invalid input data: Missing required fields');
+            return res.status(400).json({ message: 'Invalid input data' });
         }
-    },
+
+        // Find the mailbox with the given id_pk
+        const mailbox = await MailboxModel.findOne({ id_pk: id_pk });
+        console.log('Mailbox found:', mailbox);
+
+        if (!mailbox) {
+            console.error('Mailbox not found for id_pk:', id_pk);
+            return res.status(404).json({ message: 'Mailbox not found' });
+        }
+
+        // Check if the user is an owner and has valid access time
+        const currentDate = new Date();
+        const owner = mailbox.owners.find(owner => owner.user.toString() === userId && owner.accessUntil > currentDate);
+
+        if (!owner) {
+            console.log('User does not have access to the mailbox');
+            return res.json({ access: false, reason: 'No valid ownership' });
+        }
+
+        // Call the Flask ML model API to verify the access attempt
+        const flaskApiUrl = 'http://127.0.0.1:5002/predict';
+
+        const mlResponse = await axios.post(flaskApiUrl, {
+            user_id: userId,
+            access_time: access_time,
+            device_location: device_location
+        });
+
+        const { status, probability } = mlResponse.data;
+        console.log(`ML API response: status=${status}, probability=${probability}`);
+
+        if (probability > 0.5) {
+            console.log('User access authorized by ML model');
+            return res.json({ access: true });
+        } else {
+            console.warn('Suspicious activity detected by ML model');
+            return res.json({ access: false, reason: 'Suspicious activity' });
+        }
+
+    } catch (error) {
+        console.error('Error checking user access:', error.message);
+        res.status(500).json({ error: 'Failed to check user access' });
+    }
+},
+
 
 
 

@@ -1,3 +1,7 @@
 # Node.js dependencies
 node_modules/
 env/
+random_forest_model.joblib
+simulated_access_data.csv
+scaler.joblib
+feature_columns.joblib
